@@ -16,6 +16,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.devsuperior.dscatalog.repositories.ProductRepository;
+import com.devsuperior.dscatalog.services.exceptions.ResourceNotFoundException;
 
 @ExtendWith(SpringExtension.class)
 public class ProductServiceTests {
@@ -36,6 +37,16 @@ public class ProductServiceTests {
 		doNothing().when(repository).deleteById(existingId);
 		doThrow(EmptyResultDataAccessException.class).when(repository).deleteById(nonExixtingId);
 	}
+	
+	@Test
+	public void deleteShouldThrowResourceNotFoundExceptionWhenIdNotExists() {
+		Assertions.assertThrows(ResourceNotFoundException.class,  () -> {
+			service.delete(nonExixtingId);
+		});
+		
+		verify(repository, times(1)).deleteById(nonExixtingId);
+	}
+	
 	
 	@Test
 	public void deleteShouldDoNothingWhenIdExists() {
