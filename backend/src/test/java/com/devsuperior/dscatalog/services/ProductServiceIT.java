@@ -30,7 +30,6 @@ public class ProductServiceIT {
 	
 	private long existingId;
 	private long nonExixtingId;
-	private long dependentId;
 	private long countTotalProducts;
 	
 	
